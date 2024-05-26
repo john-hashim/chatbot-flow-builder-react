@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import NodeItem from "../NodeItem/NodeItem";
 
 function NodesPanel() {
   return (
-    <div>NodesPanel</div>
-  )
+    <div className="node-panel-wrapper">
+      <NodeItem />
+    </div>
+  );
 }
 
-export default NodesPanel
+export default NodesPanel;
