@@ -2,12 +2,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Node, Edge } from "reactflow";
 import { NodeData } from "../../components/NodeItem/NodeItem";
 
+/*
+Managing state as whole object in our app using redux
+Creating state interface for the initial State
+*/
 interface FlowState {
   nodes: Node[];
   edges: Edge[];
   selectedNode: NodeData | null;
 }
 
+/*
+Defining initial state
+Adding one node when the app loads
+and selectedNode is null because no node is selected on initialization
+*/
 const initialState: FlowState = {
   nodes: [
     {
@@ -41,13 +50,13 @@ const flowSlice = createSlice({
       state.selectedNode = action.payload;
     },
     clearSelectedNode(state) {
-      state.selectedNode = null;
+      state.selectedNode = null; // unselect the selected node on background click or back btn click
     },
     updateNodeLabel(
       state,
       action: PayloadAction<{ id: string; label: string }>
     ) {
-      const node = state.nodes.find((n) => n.id === action.payload.id);
+      const node = state.nodes.find((n) => n.id === action.payload.id); // Finding the currently selecting node and updating value
       if (node) {
         node.data.label = action.payload.label;
       }
@@ -55,13 +64,17 @@ const flowSlice = createSlice({
   },
 });
 
+/*
+Actions for updating state 
+*/
 export const {
-  addNode,
-  setNodes,
-  addEdge,
+  addNode, // Action for adding a node which will dispatch on droping the node in react flow
+  setNodes, 
+  addEdge, // Action for connecting a edge
   setEdges,
-  setSelectedNode,
+  setSelectedNode, // Action for selecting a node for edit
   clearSelectedNode,
-  updateNodeLabel
+  updateNodeLabel // Which will update state of existing node while updating
 } = flowSlice.actions;
+
 export default flowSlice.reducer;

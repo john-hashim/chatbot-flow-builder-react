@@ -29,11 +29,13 @@ const nodeTypes = {
 };
 
 function FlowArea() {
+  // getting values of node and edges from RootScope using selectors
   const nodes = useSelector((state: RootState) => state.flow.nodes);
   const edges = useSelector((state: RootState) => state.flow.edges);
   const dispatch = useDispatch<AppDispatch>();
 
   const onConnect = (params: Edge | Connection) => {
+    // Dispatch addEdge action and params are of type Edge as defined in Rootstate
     dispatch(
       addEdge({
         ...params,
@@ -45,6 +47,7 @@ function FlowArea() {
 
   const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    // Getting data from dragged node
     const nodeData: NodeData = JSON.parse(
       event.dataTransfer.getData("application/reactflow")
     );
@@ -55,15 +58,17 @@ function FlowArea() {
     };
 
     if (nodeData.type === "textNode") {
+      // Creating a new node which is type 'Node'
       const newNode: Node = {
         id: `${nodes.length + 1}`,
         position,
-        data: { 
+        data: { // this data will passed to the custom nodes,
           label: `Message ${nodes.length + 1}`,
           id: `${nodes.length + 1}`
         },
         type: nodeData.type,
       };
+      // Dispatching addNode action on Droping the node
       dispatch(addNode(newNode));
     } // nodes with different types can append here inside else or else if condition
   };
@@ -99,7 +104,7 @@ function FlowArea() {
         onConnect={onConnect}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        nodeTypes={nodeTypes}
+        nodeTypes={nodeTypes} 
       >
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>

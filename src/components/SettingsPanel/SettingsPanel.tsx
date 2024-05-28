@@ -15,6 +15,7 @@ function SettingsPanel() {
 
   const changeSelectedValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (selectedNode) {
+      // Changing the value of selected node
       dispatch(updateNodeLabel({ id: selectedNode.id, label: e.target.value }));
     }
   };
