@@ -19,11 +19,11 @@
     height: calc(100% - 50px);
 }
 .flow-panel{
-    width: 80%;
+    width: 85%;
     height: 100%;
 }
 .nodes-panel{
-    width: 20%;
+    width: 15%;
     height: calc(100% - 2px);
     border-left: 2px solid lightgreen;
 }
@@ -54,4 +54,30 @@
     justify-content: center;
     flex-direction: column;
     color: #8ccee4;
+}
+.node-wrapper {
+    background-color: white;
+    box-shadow: 0px 0px 5px 0px #bcbcbc;
+    border-radius: 4px;
+}
+.node-header{
+    display: flex;
+    background-color: #dcf1f8;
+    align-items: center;
+    padding: 5px 5px 2px 5px;
+}
+.node-title{
+    margin-left: 5px;
+    margin-bottom: 3px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+}
+.node-whatsapp-icon{
+    margin-left: 50px;
+}
+.node-content{
+    padding: 8px;
+    font-size: 13px;
+    font-family:Arial, Helvetica, sans-serif;
 }

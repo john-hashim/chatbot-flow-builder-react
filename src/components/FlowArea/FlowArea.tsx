@@ -1,30 +1,46 @@
 import ReactFlow, {
-  useNodesState,
-  useEdgesState,
-  addEdge,
   Background,
   BackgroundVariant,
   XYPosition,
   Edge,
   Connection,
+  MarkerType,
+  Node,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
+import { NodeData } from "../NodeItem/NodeItem";
+import TextNode from "../TextNode/TextNode";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { addEdge, addNode } from "../../store/slices/flowSlices";
 
-const initialNodes = [
-  { id: "1", position: { x: 200, y: 300 }, data: { label: "Sample message" } },
-];
+const nodeTypes = {
+  textNode: TextNode,
+  /*
+  Other types of nodes can add here in below format
+  [key: string]: ComponentType<NodeProps>
+  eg: dropdownNode: DropdownNode 
+  */
+};
 
 function FlowArea() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const nodes = useSelector((state: RootState) => state.flow.nodes);
+  const edges = useSelector((state: RootState) => state.flow.edges);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const onConnect = (params: Edge | Connection) =>
-    setEdges((eds) => addEdge(params, eds));
+  const onConnect = (params: Edge | Connection) => {
+    dispatch(
+      addEdge({
+        ...params,
+        markerStart: { type: MarkerType.ArrowClosed },
+      } as Edge)
+    );
+  };
 
   const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const nodeData = JSON.parse(
+    const nodeData: NodeData = JSON.parse(
       event.dataTransfer.getData("application/reactflow")
     );
     // manually adjust x and y based on the accurate position
@@ -32,12 +48,16 @@ function FlowArea() {
       x: event.clientX - 65,
       y: event.clientY - 65,
     };
-    const newNode = {
-      id: `${nodes.length + 1}`,
-      position,
-      data: { label: "New Message" },
-    };
-    setNodes((nds) => nds.concat(newNode));
+
+    if (nodeData.type === "textNode") {
+      const newNode: Node = {
+        id: `${nodes.length + 1}`,
+        position,
+        data: { label: "New Message" },
+        type: nodeData.type,
+      };
+      dispatch(addNode(newNode));
+    } // nodes with different types can append here inside else or else if condition
   };
 
   const onDragOver = (event: any) => {
@@ -54,9 +74,8 @@ function FlowArea() {
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
       >
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>

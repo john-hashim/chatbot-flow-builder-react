@@ -1,15 +1,16 @@
 import React from "react";
 
-interface NodeData {
+export interface NodeData {
   id: string;
   type: string;
   label: string;
 }
 
 function NodeItem() {
+  
   const nodeData: NodeData = {
     id: "1",
-    type: "textNode",
+    type: "textNode", // Node Type
     label: "Sample Node",
   };
 
