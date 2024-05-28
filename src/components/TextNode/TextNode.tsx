@@ -1,9 +1,22 @@
+import { useDispatch, useSelector } from "react-redux";
 import { NodeData } from "../NodeItem/NodeItem";
 import { Handle, Position } from "reactflow";
+import { AppDispatch, RootState } from "../../store";
+import { setSelectedNode } from "../../store/slices/flowSlices";
 
 function TextNode({ data }: { data: NodeData }) {
+  const selectedNode = useSelector(
+    (state: RootState) => state.flow.selectedNode
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  const setSelectedNodeData = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation()
+    dispatch(setSelectedNode(data));
+  };
+
   return (
-    <div className="node-wrapper">
+    <div className={selectedNode && selectedNode.id === data.id ? 'node-wrapper selected-node' : 'node-wrapper'} onClick={setSelectedNodeData}>
       <Handle
         type="source"
         position={Position.Left}

@@ -6,6 +6,10 @@ import ReactFlow, {
   Connection,
   MarkerType,
   Node,
+  applyNodeChanges,
+  applyEdgeChanges,
+  EdgeChange,
+  NodeChange
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -13,7 +17,7 @@ import { NodeData } from "../NodeItem/NodeItem";
 import TextNode from "../TextNode/TextNode";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { addEdge, addNode } from "../../store/slices/flowSlices";
+import { addEdge, addNode, clearSelectedNode, setNodes, setEdges } from "../../store/slices/flowSlices";
 
 const nodeTypes = {
   textNode: TextNode,
@@ -33,6 +37,7 @@ function FlowArea() {
     dispatch(
       addEdge({
         ...params,
+        id: `${new Date().getTime()}xw`,
         markerStart: { type: MarkerType.ArrowClosed },
       } as Edge)
     );
@@ -53,7 +58,10 @@ function FlowArea() {
       const newNode: Node = {
         id: `${nodes.length + 1}`,
         position,
-        data: { label: "New Message" },
+        data: { 
+          label: `Message ${nodes.length + 1}`,
+          id: `${nodes.length + 1}`
+        },
         type: nodeData.type,
       };
       dispatch(addNode(newNode));
@@ -65,16 +73,32 @@ function FlowArea() {
     event.dataTransfer.dropEffect = "move";
   };
 
+  const onBackgroundClick = () => {
+    dispatch(clearSelectedNode());  // Dispatch action to clear selected node
+  };
+
+  const onNodesChange = (changes: NodeChange[]) => {
+      dispatch(setNodes(applyNodeChanges(changes, nodes)));
+  };
+
+  const onEdgesChange = (changes:EdgeChange[]) => {
+      dispatch(setEdges(applyEdgeChanges(changes, edges)));
+  };
+
+
   return (
     <div
       onDrop={onDrop}
       onDragOver={onDragOver}
       style={{ width: "100%", height: "100%" }}
+      onClick={onBackgroundClick} 
     >
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onConnect={onConnect}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
       >
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />

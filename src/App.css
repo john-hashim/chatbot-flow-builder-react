@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+    font-family:Arial, Helvetica, sans-serif;
 }
 .chatbot-wrapper{
     height: 100vh;
@@ -69,7 +70,6 @@
 .node-title{
     margin-left: 5px;
     margin-bottom: 3px;
-    font-family:Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: 900;
 }
@@ -79,5 +79,36 @@
 .node-content{
     padding: 8px;
     font-size: 13px;
-    font-family:Arial, Helvetica, sans-serif;
+}
+
+.selected-node {
+    box-shadow: 0px 4px 20px 4px #bcbcbc;
+}
+
+.settings-header{
+    border-bottom: 1px solid lightgreen;
+    padding: 10px;
+    color: #8ccee4;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.settings-wrapper{
+    width: 100%;
+}
+.input-wrapper{
+    padding: 10px;
+}
+.sub-heading{
+    margin-top: 10px;
+    color: gray;
+}
+.settings-textarea{
+    margin-top: 10px;
+    font-size: 12px;
+    padding: 5px;
+    outline: none;
+    width: 90%;
+    border: 1px solid #8ccee4;
 }
