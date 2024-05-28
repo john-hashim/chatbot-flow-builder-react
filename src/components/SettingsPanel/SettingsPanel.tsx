@@ -20,7 +20,7 @@ function SettingsPanel() {
     }
   };
 
-  const onBackgroundClick = () => {
+  const onBackBtn = () => {
     dispatch(clearSelectedNode()); // Dispatch action to clear selected node
   };
 
@@ -28,7 +28,7 @@ function SettingsPanel() {
     <div className="settings-wrapper">
       <div className="settings-header">
         <svg
-          onClick={onBackgroundClick}
+          onClick={onBackBtn}
           style={{ cursor: "pointer" }}
           className="w-6 h-6 text-gray-800 dark:text-white"
           aria-hidden="true"

@@ -40,7 +40,7 @@ function FlowArea() {
       addEdge({
         ...params,
         id: `${new Date().getTime()}xw`,
-        markerStart: { type: MarkerType.ArrowClosed },
+        markerEnd: { type: MarkerType.ArrowClosed },
       } as Edge)
     );
   };

@@ -47,7 +47,8 @@
 .node-item-wrapper{
     margin-top: 20px;
     border: 2px solid #8ccee4;
-    padding: 10px 30px;
+    width: 60%;
+    padding: 5px 0px;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
@@ -111,4 +112,16 @@
     outline: none;
     width: 90%;
     border: 1px solid #8ccee4;
+}
+
+@media (max-width: 884px) {
+    .flow-panel{
+        width: 70%;
+        height: 100%;
+    }
+    .nodes-panel{
+        width: 30%;
+        height: calc(100% - 2px);
+        border-left: 2px solid lightgreen;
+    }
 }
